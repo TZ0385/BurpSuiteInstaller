@@ -22,7 +22,7 @@ jobs:
     runs-on: ubuntu-latest
     steps:
       - name: Check out repo
-        uses: actions/checkout@v3
+        uses: actions/checkout@v4
 
       - name: Set Environment Variables
         uses: tw3lveparsecs/github-actions-setvars@latest
@@ -30,13 +30,13 @@ jobs:
           envFilePath: .github/variables/global.env
       
       - name: Download Linux Build
-        uses: actions/download-artifact@v3
+        uses: actions/download-artifact@v4
         with:
           name: ${{ env.LINUX_ARTIFACT_NAME }}
           path: build-${{ env.LINUX_ARTIFACT_NAME }}
       
       - name: Download Windows Build
-        uses: actions/download-artifact@v3
+        uses: actions/download-artifact@v4
         with:
           name: ${{ env.WINDOWS_ARTIFACT_NAME }}
           path: build-${{ env.WINDOWS_ARTIFACT_NAME }}
@@ -56,7 +56,8 @@ jobs:
             bodyFile: release_notes.md
             makeLatest: true
             tag: ${{ inputs.version }}
-            commit: ${{ inputs.commit_hash }}
+            removeArtifacts: true
+            # commit: ${{ inputs.commit_hash }}
   
   build_windows:
     # Creates a new release if there were changes detected in the previous job.
