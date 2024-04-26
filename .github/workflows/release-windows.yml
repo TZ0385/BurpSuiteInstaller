@@ -12,7 +12,6 @@ env:
     # Download from https://jdk.java.net/archive/
     JDK_URL: https://download.java.net/java/GA/jdk18.0.2/f6ad4b4450fd4d298113270ec84f30ee/9/GPL/openjdk-18.0.2_windows-x64_bin.zip
     JDK_VERSION: 18.0.2 
-    WINDOWS_ARTIFACT_NAME: windows
 
 jobs:
   build_installer:
@@ -38,13 +37,10 @@ jobs:
 
           cmd /c .\make-installer-gh-action.bat .\burpsuite_pro.jar ${{ inputs.version }}
       
-
-
-      
       - name: Upload Artifact
         uses: actions/upload-artifact@v4
         with:
-          name: ${{ env.WINDOWS_ARTIFACT_NAME }}
+          name: windows-installer
           path: windows/Build/*
             
   build_patcher:
@@ -64,5 +60,5 @@ jobs:
       - name: Upload Artifact
         uses: actions/upload-artifact@v4
         with:
-          name: ${{ env.WINDOWS_ARTIFACT_NAME }}
+          name: windows-patcher
           path: windows-patcher/Build/*

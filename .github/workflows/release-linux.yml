@@ -16,11 +16,6 @@ jobs:
       - name: Check out repo
         uses: actions/checkout@v4
       
-      - name: Set Environment Variables
-        uses: tw3lveparsecs/github-actions-setvars@latest
-        with:
-          envFilePath: .github/variables/global.env
-      
       - name: Build Patcher for Linux
         run: |
           cd linux/
@@ -37,7 +32,7 @@ jobs:
       - name: Upload Build Artifact
         uses: actions/upload-artifact@v4
         with:
-          name: ${{ env.LINUX_ARTIFACT_NAME }}
+          name: linux-patcher
           path: linux/burpsuite_pro_patcher_linux_generic.sh
       
       

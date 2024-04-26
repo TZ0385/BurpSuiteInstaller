@@ -24,22 +24,23 @@ jobs:
       - name: Check out repo
         uses: actions/checkout@v4
 
-      - name: Set Environment Variables
-        uses: tw3lveparsecs/github-actions-setvars@latest
-        with:
-          envFilePath: .github/variables/global.env
-      
       - name: Download Linux Build
         uses: actions/download-artifact@v4
         with:
-          name: ${{ env.LINUX_ARTIFACT_NAME }}
-          path: build-${{ env.LINUX_ARTIFACT_NAME }}
+          name: linux-patcher
+          path: build-linux-patcher
       
-      - name: Download Windows Build
+      - name: Download Windows Build (Patcher)
         uses: actions/download-artifact@v4
         with:
-          name: ${{ env.WINDOWS_ARTIFACT_NAME }}
-          path: build-${{ env.WINDOWS_ARTIFACT_NAME }}
+          name: windows-patcher
+          path: build-windows-patcher
+
+      - name: Download Windows Build (Installer)
+        uses: actions/download-artifact@v4
+        with:
+          name: windows-installer
+          path: build-windows-installer
       
       - name: Generate Release Notes
         run: |

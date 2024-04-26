@@ -23,12 +23,7 @@ jobs:
     steps:
       - name: Check out repo
         uses: actions/checkout@v4
-
-      - name: Set Environment Variables
-        uses: tw3lveparsecs/github-actions-setvars@latest
-        with:
-          envFilePath: .github/variables/global.env
-
+        
       - name: Get latest release from GitHub
         id: last_release
         run: echo "tag_name=$(git describe --tags $(git rev-list --tags --max-count=1))" >> $GITHUB_OUTPUT
@@ -36,7 +31,8 @@ jobs:
       - name: Install Golang
         uses: actions/setup-go@v5
         with:
-          go-version: 1.20.2
+          go-version: ${{ env.GO_VERSION }}
+          cache: false
 
       - name: Build & Check for updates
         id: version
