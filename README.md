@@ -93,6 +93,47 @@ Download and install the [official installer from PortSwigger](https://portswigg
 
 After the installation is complete, download and run the [patcher for Windows](https://github.com/mmgordon82/BurpSuiteInstaller/releases/latest) and run it.
 
+
+### macOS
+
+#### Download the official release from PortSwigger
+Go to [PortSwigger's Burp Suite Releases](https://portswigger.net/burp/releases#professional) and download the latest version of Burp Suite for your macOS device.
+
+#### Install Burp Suite
+After downloading the official release, start the `dmg` file and follow the instructions provided by PortSwigger.
+
+#### Activate Burp Suite
+```bash
+# Download & Run the patcher
+curl -fsSL 'https://github.com/mmgordon82/BurpSuiteInstaller/releases/latest/download/burpsuite_pro_patcher_linux_generic.sh' > burpsuite_pro_patcher_linux.sh
+chmod +x burpsuite_pro_patcher_linux.sh
+bash ./burpsuite_pro_patcher_linux.sh
+```
+
+
+
+#### Download and Install
+```bash
+# Download the official release from PortSwigger
+
+wget -O 'burpsuite_pro_linux.sh' 'https://portswigger-cdn.net/burp/releases/download?product=pro&type=Linux'
+chmod +x burpsuite_pro_linux.sh
+
+# Can also be installed as root user (for all users)
+./burpsuite_pro_linux.sh
+
+# Install Burp Suite Using the GUI
+
+# Download & Run the patcher
+wget -O 'burpsuite_pro_patcher_linux.sh' 'https://github.com/mmgordon82/BurpSuiteInstaller/releases/latest/download/burpsuite_pro_patcher_linux_generic.sh'
+chmod +x burpsuite_pro_patcher_linux.sh
+./burpsuite_pro_patcher_linux.sh
+
+# Follow the patcher...
+# That's it!
+```
+
+
 ## Utilities
 
 ### Remove License and Configurations

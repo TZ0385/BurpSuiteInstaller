@@ -16,8 +16,19 @@ IFS=$'\n\t'
 extract_path=$( cd "$(dirname "${BASH_SOURCE[0]}")" ; pwd -P )
 self_filename=$(basename "${BASH_SOURCE[0]}")
 
-VMOPTIONS_FILENAME="BurpSuitePro.vmoptions"
+is_mac=false
+if [[ "$(uname)" == "Darwin" ]]; then
+  is_mac=true
+fi
+
 KEYGEN_JAR_FILENAME="BurpLoaderKeygen.jar"
+
+if [[ "$is_mac" == true ]]; then
+  VMOPTIONS_FILENAME="vmoptions.txt"
+else
+  VMOPTIONS_FILENAME="BurpSuitePro.vmoptions"
+fi
+
 
 function append_line() {
     filename=$1
@@ -62,9 +73,22 @@ if [[ -n "$user_input" ]]; then
   fi
 
 else
-  # Find all BurpSuite installed on the system
-  echo "[+] Finding Burp Suite Installations..."
-  installs=$(find / -maxdepth 3 -xdev \( -path /bin -prune -o -path /boot -prune -path /etc -prune -o -path /lib -prune -o -path /media -prune -o -path /mnt -prune -o -path /var -prune \) -o -type f -name $VMOPTIONS_FILENAME -printf "%h\n" 2>/dev/null || true)
+  if [[ "$is_mac" == true ]]; then
+    # Check the default installation path on Mac OS
+    installs="/Applications/Burp Suite Professional.app/Contents/"
+    if [[ ! -d "$installs" ]]; then
+      echo "[!] Can't search for the Burp Suite installation on Mac OS."
+      echo "    Specify where Burp Suite is installed."
+      echo "    $ bash ./${self_filename} \"${installs}\""
+      exit 1
+    fi
+  else
+    # Find all BurpSuite installed on the system
+    echo "[+] Finding Burp Suite Installations..."
+    installs=$(find / -maxdepth 3 -xdev \( -path /bin -prune -o -path /boot -prune -path /etc -prune -o -path /lib -prune -o -path /media -prune -o -path /mnt -prune -o -path /var -prune \) -o -type f -name $VMOPTIONS_FILENAME -printf "%h\n" 2>/dev/null || true)
+  fi
+
+
 
   # Check if we found any installations
   if [[ -z "$installs" ]]; then
@@ -91,7 +115,7 @@ fi
 
 echo "[+] Patching Burp Suite installation at $burp_dir..."
 if [[ ! -f "$vmoptions" ]]; then
-      echo "Invalid selection! vmoption file doesn't exist. Exiting..."
+    echo "Invalid selection! vmoption file doesn't exist. Exiting..."
     exit 1
 fi
 echo "[+] Patching $vmoptions..."
@@ -103,7 +127,13 @@ append_line "$vmoptions" "-include-options activation.vmoptions"
 echo "[+] Creating 'activation.vmoptions' file..."
 activation_file="$burp_dir/activation.vmoptions"
 append_line "$activation_file" "-noverify"
-append_line "$activation_file" "-javaagent:$KEYGEN_JAR_FILENAME"
+
+if [[ "$is_mac" == true ]]; then
+  append_line "$activation_file" "-javaagent:$burp_dir/$KEYGEN_JAR_FILENAME"
+else
+  append_line "$activation_file" "-javaagent:$KEYGEN_JAR_FILENAME"
+fi
+
 append_line "$activation_file" "--add-opens=java.base/java.lang=ALL-UNNAMED"
 append_line "$activation_file" "--add-opens=java.desktop/javax.swing=ALL-UNNAMED"
 append_line "$activation_file" "--add-opens=java.base/jdk.internal.org.objectweb.asm=ALL-UNNAMED"
@@ -129,9 +159,16 @@ Activation Instructions:
 read -p "Press [Enter] key to start BurpSuite and the Keygen to start the activation process..."
 cd "$burp_dir"
 echo "[+] Starting Burp Suite..."
-"$burp_dir/BurpSuitePro" &
+if [[ "$is_mac" == true ]]; then
+  open -a "Burp Suite Professional.app"
+else
+  "$burp_dir/BurpSuitePro" &
+fi
 echo "[+] Starting the keygen..."
-"$burp_dir/jre/bin/java" -jar "$burp_dir/$KEYGEN_JAR_FILENAME" &
-
+if [[ "$is_mac" == true ]]; then
+  "$burp_dir/Resources/jre.bundle/Contents/Home/bin/java" -jar "$burp_dir/$KEYGEN_JAR_FILENAME"
+else
+  "$burp_dir/jre/bin/java" -jar "$burp_dir/$KEYGEN_JAR_FILENAME" &
+fi
 
 exit 0
