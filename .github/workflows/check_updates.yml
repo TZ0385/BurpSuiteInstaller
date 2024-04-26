@@ -23,11 +23,9 @@ jobs:
     steps:
       - name: Check out repo
         uses: actions/checkout@v4
+        with:
+          fetch-depth: 0
 
-      - name: Get latest release from GitHub
-        id: last_release
-        run: echo "tag_name=$(git describe --tags $(git rev-list --tags --max-count=1))" >> $GITHUB_OUTPUT
-    
       - name: Install Golang
         uses: actions/setup-go@v5
         with:
@@ -39,7 +37,7 @@ jobs:
         run: |
           go build -o version-updater version-updater.go
           chmod +x ./version-updater
-          lastversion=$(echo -n ${{ steps.last_release.outputs.tag_name }})
+          lastversion=$(git describe --tags --abbrev=0)
           version=$(./version-updater)
           echo "latest=$version" >> $GITHUB_OUTPUT
           echo "Updated version hashes: $lastversion to $version"
