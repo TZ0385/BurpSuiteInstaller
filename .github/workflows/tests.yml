@@ -13,10 +13,13 @@ jobs:
     steps:
       - name: Check out repo
         uses: actions/checkout@v4
+        with:
+          fetch-depth: 0
 
       - name: Run commands
         run: |
           echo "Running tests..."
           echo "Latest Release (via curl): $(curl -s https://api.github.com/repos/${{ github.repository}}/releases/latest | jq -r .tag_name)"
-          echo "Latest Release (via git): $(git describe --tags)"
+          echo "Latest Release (via git v1): $(git describe --tags --abbrev=0)"
+          echo "Latest Release (via git v2): $(git describe --tags $(git rev-list --tags --max-count=1))"
           echo "Tests passed!"
