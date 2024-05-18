@@ -19,7 +19,6 @@ jobs:
     outputs:
       latest: ${{ steps.version.outputs.latest }}
       changes_detected: ${{ steps.version.outputs.changes_detected }}
-      commit_hash: ${{ steps.commit.outputs.commit_hash }}
     steps:
       - name: Check out repo
         uses: actions/checkout@v4
@@ -37,7 +36,7 @@ jobs:
         run: |
           go build -o version-updater version-updater.go
           chmod +x ./version-updater
-          lastversion=$(git describe --tags --abbrev=0)
+          lastversion=$(git for-each-ref --sort=creatordate --format '%(refname:strip=2)' refs/tags | tail -1)
           version=$(./version-updater)
           echo "latest=$version" >> $GITHUB_OUTPUT
           echo "Updated version hashes: $lastversion to $version"
@@ -58,5 +57,4 @@ jobs:
     secrets: inherit
     with:
       version: ${{ needs.check_updates.outputs.latest }}
-      commit_hash: ${{ needs.check_updates.outputs.commit_hash }}
     uses: mmgordon82/BurpSuiteInstaller/.github/workflows/release.yml@main

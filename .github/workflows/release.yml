@@ -7,10 +7,6 @@ on:
         description: 'Version to release'
         required: true
         type: string
-      commit_hash:
-        description: 'Commit to tag and release'
-        required: true
-        type: string
 
 permissions:
   contents: write
@@ -58,7 +54,6 @@ jobs:
             makeLatest: true
             tag: ${{ inputs.version }}
             removeArtifacts: true
-            # commit: ${{ inputs.commit_hash }}
   
   build_windows:
     # Creates a new release if there were changes detected in the previous job.
