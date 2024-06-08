@@ -6,10 +6,10 @@
     <img src="readme-assets/title-logo.png" alt="Logo">
   </a>
 
-<h3 align="center">Burp Suite Cracked Activator (Keygen and Loader + Easy Install)</h3>
+<h3 align="center">Burp Suite Cracked Auto-Updated (Easy Install for All OS)</h3>
 
   <p align="center">
-    Install the most updated versions of Burp Suite (Pro) with easy-to-use installers and instructions in an automated fashion.
+    Install the most updated versions of Burp Suite (Pro) with easy-to-use installers and instructions in an (almost) automated fashion.
     <br />
   </p>
 
@@ -24,18 +24,20 @@
 
 ## Disclaimer (Legal Notice)
 This is for educational purposes only. I am not responsible for any damage caused by this software. Use at your own risk.
+Personally, I just wanted to try GitHub Actions and do some reverse engineering to keygens and this was a fun one.
 
 
 <!-- ABOUT THE PROJECT -->
 ## About
 tl;dr now you can install Burp Suite (or patch your current setup) easily.
 
-In the past few months, I needed to install Burp suite more than I had imagined. And every time I found myself bamboozled with how to crack/activate it.
+In the past few months, I needed to install Burp suite several times. And every time I found myself bamboozled with how to crack/activate it.
+Not to mention that in some cases I accidentally downloaded malware versions of Burp suite and had to format my computer (more than once unfortunately).
 
-Just to clarify, activating it means doing the following:
+Just to clarify, activating it meant doing the following every f**king single time:
  - Looking online (mostly on Telegram or shady torrent sites) for a cracked version (hoping it doesn't contain any virus)
  - Download it
- - Put the JAR file somewhere on my PC
+ - Put the JAR file in some directory
  - Modify the .vmoptions file
  - Download and install JRE
  - Discover I downloaded the wrong version of JRE
@@ -43,11 +45,13 @@ Just to clarify, activating it means doing the following:
  - Use a half-cocked keygen and loader that contains god-knows-what.
  - (OPTIONAL) create a shortcut and put it in the Programs directory, so it can be accessed as a run-of-the-mill software.
 
-So in the past few weeks I decided to work on a solution that would mimic the official Burp-Suite exe installer only paid pro members get.
+Pro members can download an .exe file and install Burp that had Java built in as well as a normal uninstaller and shortcut. Similarly, Linux users also had a .sh file that did the same.
+So in the past few weeks I decided to make a solution that would mimic the official installers only paid pro members get.
+Then I started thinking that my installer wasn't so different then theirs, so I make a patcher that works with the original installers from their website.
 
 This repo includes:
  - `installer` for Windows - Installs everything needed, includes JDK, Burp and the keygen/loader.
- - `patcher`, for those who prefer installing the official releases of Burp - activates the existing installed Burp.
+ - `patcher`, for those who prefer installing the official releases of Burp - activates an existing installation.
 
 The keygen used is written by [h3110w0r1d-y](https://github.com/h3110w0r1d-y/BurpLoaderKeygen).
 After receiving a DMCA takedown notice, the original repo was taken down. I have manually added the keygen to this repo.
